@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style> 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+    .font-size-40 {font-size: 40px;}
+    .font-size-30 {font-size: 30px;}
+    .font-size-20 {font-size: 20px;}
+    .font-size-18 {font-size: 18px;}
+    .text-align-center {text-align: center;}
+
+    .margin-30 {margin: 30px;}
+    .margin-top-20 {margin-top: 20px;}
+    .margin-top-50 {margin-top: 50px;}
+    .margin-bottom-20 {margin-bottom: 20px;}
+    .margin-bottom-50 {margin-bottom: 50px;}
+    .margin-left-50 {margin-left: 50px;}
+    .margin-0-auto {margin: 0 auto;}
+
+    .padding-20 {padding: 20px;}
+    .padding-10 {padding: 10px;}
+
+    
+    .width-500 {width: 500px;}
+    .width-250 {width: 250px;}
+
+    .width-100w {width: 100%;}
+    .height-100h {height: 100%;}
+    
+
+    .height-500 {height: 500px;}
+    .height-100 {height: 100px;}
+
+    .img{width: 100%; height: 100%; object-fit: cover;}
+
+    .display-flex-between { display: flex;
+        justify-content: space-between;
+        align-items: center; }
+
+
+    .border-2-solid-pink { border: 2px solid pink; }
+
+    .start-btn {
+      font-size: 20px;
+      padding: 10px;
+      background-color: pink;
+      border: none;
+    }
+
+    .button-yes{
+      font-size: 20px;
+      padding: 10px 30px;
+      background-color: lightblue;
+      border: none;
+    }
+    .button-no{
+      font-size: 20px;
+      padding: 10px 30px;
+      background-color: lightpink;
+      border: none;
+    }
+
+  </style>
+</head>
+<body id = app>
+  <div id="root">
+    <h1 class="text-align-center margin-30 font-size-40">~ 우정 테스트 ~</h1>
+    <p class="text-align-center margin-30 margin-bottom-20">게임 방법 : <br>
+      사진을 보고 기욱이 맞으면 <b>YES</b>아니면 <b>NO</b>를 눌러줘 ~ &#128536; </p>
+    <div class="text-align-center margin-top-20 margin-bottom-20">
+      <button class="start-btn">테스트 시작</button>
+      <div class="padding-10 width-250 margin-0-auto font-size-18">
+        <span>점수</span>
+        <span>0</span>
+        <span>남은시간</span>
+        <span>30</span>
+      </div>
+    </div>
+    <div class="margin-0-auto width-500 height-500 text-align-center border-2-solid-pink">
+    <img id="test" src="img/Rectangle-1.jpg" alt="" class="img">
+    <div class="width-100w height-100h outcome">
+      <h2 class="font-size-30"></h2>
+      <p class="font-size-18"></p>
+      <p class="font-size-20 padding-20"></p>
+    </div>
+    </div>
+    <div class="width-250 height-100 margin-0-auto display-flex-between"></div> 
+  </div>   
+  <script>
+
+    const friendTestImg = document.getElementById("test")
+    // 랜덤 이미지 위치 
+
+    // 이미지들
+
+    class TestImgs {
+      constructor(imgsrc, name, correct){
+        this.imgsrc = imgsrc
+        this.name = name
+        this.correct = correct
+      }
+    }
+
+    class FriendTest {
+      constructor(){
+        this.imgs = []
+        this.currentword = null 
+        this.score = 0
+        this.timeLeft = 30
+        this.isGameRunning = false
+        this.timer = null
+      }
+    }
+
+    // 데이터
+    const imgs = [
+      ["img/Rectangle-1.jpg","1번","Y"],
+      ["img/Rectangle-2.jpg","2번","N"],
+      ["img/Rectangle-3.jpg","3번","N"],
+      ["img/Rectangle-4.jpg","4번","Y"],
+      ["img/Rectangle-5.jpg","5번","N"],
+      ["img/Rectangle-6.jpg","6번","N"],
+      ["img/Rectangle-7.jpg","7번","N"],
+      ["img/Rectangle-8.jpg","8번","N"],
+      ["img/Rectangle-9.jpg","9번","Y"],
+      ["img/Rectangle-10.jpg","10번","Y"],  
+      ["img/Rectangle-11.jpg","11번","N"],
+      ["img/Rectangle-12.jpg","12번","Y"],
+      ["img/Rectangle-13.jpg","13번","N"],
+      ["img/Rectangle-14.jpg","14번","N"],
+      ["img/Rectangle-15.jpg","15번","N"],
+      ["img/Rectangle-16.jpg","16번","N"],
+      ["img/Rectangle-17.jpg","17번","N"],
+      ["img/Rectangle-18.jpg","18번","Y"],
+      ["img/Rectangle-19.jpg","19번","Y"],
+      ["img/Rectangle-20.jpg","20번","N"], 
+      ["img/Rectangle-21.jpg","21번","N"],
+      ["img/Rectangle-22.jpg","22번","Y"],
+      ["img/Rectangle-23.jpg","23번","N"],
+      ["img/Rectangle-24.jpg","24번","N"],
+      ["img/Rectangle-25.jpg","25번","N"],
+      ["img/Rectangle-26.jpg","26번","N"],
+      ["img/Rectangle-27.jpg","27번","N"],
+      ["img/Rectangle-28.jpg","28번","N"],
+      ["img/Rectangle-29.jpg","29번","N"],
+      ["img/Rectangle-30.jpg","30번","Y"], 
+      ["img/Rectangle-31.jpg","31번","Y"],
+      ["img/Rectangle-32.jpg","32번","Y"],
+      ["img/Rectangle-33.jpg","33번","N"],
+      ["img/Rectangle-34.jpg","34번","Y"],
+      ["img/Rectangle-35.jpg","35번","N"],
+      ["img/Rectangle-36.jpg","36번","Y"],
+      ["img/Rectangle-37.jpg","37번","Y"],
+      ["img/Rectangle-38.jpg","38번","Y"],
+      ["img/Rectangle-39.jpg","39번","Y"],
+      ["img/Rectangle-40.jpg","40번","Y"]
+    ]
+
+    const friendTest = new FriendTest()
+
+    for(let i = 0; i < imgs.length; i ++){
+      const currenImgData = imgs[i]
+      const testImgs = new TestImgs(currenImgData[0],currenImgData[1],currenImgData[2])
+      friendTest.imgs.push(testImgs)
+      console.log("이미지 데이터 생성", friendTest.imgs.length)
+    }
+    console.log("모든 이미지 생성 ", friendTest.imgs.length)
+
+    const body = document.getElementById("app")
+    const root = document.getElementById("root")
+    const h1 = root.children[0] //제목
+    const p = root.children[1] // 누르세요
+    const controlSection = root.children[2] //시작, 점수 시간
+    const outcomeSection = root.children[3] //문제출제    
+    const correctBtn = root.children[4] //네니오
+
+    const startBtn = controlSection.children[0] //게임 시작버튼
+    const outcome = outcomeSection.children[1] //게임 결과
+
+
+    function createCorrectBtns(){
+      //버튼은 2개이니 따로 배열을 생성하는 쪽이 나음
+      const createCorrectBtnData = [
+        {text : "YES", value: "Y" ,class: "button-yes"},
+        {text : "NO", value: "N" ,class: "button-no"}      
+      ]
+
+      for(let i = 0; i < createCorrectBtnData.length; i++){
+        const btn = document.createElement("button")
+        btn.textContent = createCorrectBtnData[i].text;
+        // 생성된 버튼을 각자 다르게 꾸미고 싶을땐 클래스 명도 객체로 두고, 반복문으로 할당하는 군...
+        btn.className = createCorrectBtnData[i].class;
+
+        btn.addEventListener("click", function(){
+          handelAnswer(createCorrectBtnData[i].value);
+        })
+
+        correctBtn.appendChild(btn);
+        console.log("버튼완료", btn.textContent)
+      }      
+    }
+    createCorrectBtns()
+
+    // 이미지 랜덤돌리기
+
+    function randomImgs(){
+      const imgRandom = Math.floor(Math.random()*friendTest.imgs.length)
+
+      const selectImg = friendTest.imgs[imgRandom]
+      friendTest.currentword = selectImg
+      
+      friendTestImg.src = friendTest.currentword.imgsrc;
+
+      console.log("이미지:", friendTest.currentword.imgsrc);
+      console.log("정답:", friendTest.currentword.correct);
+    }
+    
+
+    //버튼 클릭 연결
+    function handelAnswer(clickedValue){
+      console.log("맞음 아님 클릭됨", clickedValue)
+
+      if(friendTest.isGameRunning === false){
+        console.log("게임 시작 버튼 안누름")
+        return
+      }
+
+      if(clickedValue === friendTest.currentword.correct){
+        friendTest.score = friendTest.score + 1
+        upScore()
+        randomImgs()
+        console.log("정답", friendTest.currentword.correct)
+      }else{
+        friendTest.score = friendTest.score -1
+        upScore()
+        randomImgs()
+        console.log("오답", friendTest.currentword.correct)
+      }
+    }
+
+    // 점수 업데이트
+    function upScore(){
+      const scoreSpan = controlSection.children[1].children[1]
+      scoreSpan.textContent = friendTest.score
+      console.log("점수업데이트",scoreSpan.textContent)
+    }
+
+    // 남은시간 업데이트
+    function upTimer(){
+      const timeSpan = controlSection.children[1].children[3]
+      timeSpan.textContent = friendTest.timeLeft
+      console.log("총 시간업데이트", timeSpan.textContent)
+    }
+
+    // 첫번째 문제
+    function firstImg(){
+      const firstImg = friendTest.imgs[0]
+      friendTestImg.src = firstImg.imgsrc;
+      friendTest.currentword = firstImg;
+      console.log("첫번째 이미지로 설정", firstImg.imgsrc);
+
+      // 랜덤문제 시작
+      randomImgs()
+    }
+
+    function startGame(){
+      console.log("게임시작")
+
+      friendTest.isGameRunning = true
+      friendTest.score = 0
+      friendTest.timeLeft = 30
+
+      firstImg()
+      upScore()
+      upTimer()
+
+      friendTest.timer = setInterval(function(){
+        friendTest.timeLeft = friendTest.timeLeft - 1
+        upTimer()
+
+        if(friendTest.timeLeft <= 0){
+          endGame()
+        }
+
+
+      },1000)
+    }
+
+    function endGame(){
+      console.log("종료")
+
+      friendTest.isGameRunning = false
+      clearInterval(friendTest.timer)
+      friendTestImg.src = ""
+
+      outcome.children[0].textContent = "게임 종료"
+      outcome.children[1].textContent = `점수 : ${friendTest.score}`
+
+      if(friendTest.score <= 5 ){
+        outcome.children[2].textContent = "눈 없으심?"
+      }else if(friendTest.score <= 10){
+        outcome.children[2].textContent = "우리 절교해요!"
+      }else if(friendTest.score <= 25){
+        outcome.children[2].textContent = "친구 연장해드립니다~"
+      }else{
+        outcome.children[2].textContent = "오늘부터 베프 시켜드립니다~"
+      }
+
+    }
+
+    startBtn.addEventListener("click", function(){
+      if(friendTest.isGameRunning === true){
+        console.log("이미 게임이 진행중입니다.")
+        return
+      }
+      startGame()
+    })
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>
