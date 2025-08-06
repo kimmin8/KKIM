@@ -30,16 +30,18 @@
 
     
     .width-500 {width: 500px;}
+    .width-300 {width: 300px;}
     .width-250 {width: 250px;}
 
     .width-100w {width: 100%;}
     .height-100h {height: 100%;}
+    .height-auto {height: auto;}
     
 
     .height-500 {height: 500px;}
-    .height-100 {height: 100px;}
+    .height-50 {height: 50px;}
 
-    .img{width: 100%; height: 100%; object-fit: cover;}
+    .img{width: 100%; height: auto; object-fit: cover;}
 
     .display-flex-between { display: flex;
         justify-content: space-between;
@@ -72,7 +74,7 @@
 </head>
 <body id = app>
   <div id="root">
-    <h1 class="text-align-center margin-30 font-size-40">~ 우정 테스트 ~</h1>
+    <h1 class="text-align-center font-size-40">~ 우정 테스트 ~</h1>
     <p class="text-align-center margin-30 margin-bottom-20">게임 방법 : <br>
       사진을 보고 기욱이 맞으면 <b>YES</b>아니면 <b>NO</b>를 눌러줘 ~ &#128536; </p>
     <div class="text-align-center margin-top-20 margin-bottom-20">
@@ -84,7 +86,7 @@
         <span>30</span>
       </div>
     </div>
-    <div class="margin-0-auto width-500 height-500 text-align-center border-2-solid-pink">
+    <div class="margin-0-auto width-300 height-auto text-align-center">
     <img id="test" src="img/Rectangle-1.jpg" alt="" class="img">
     <div class="width-100w height-100h outcome">
       <h2 class="font-size-30"></h2>
@@ -92,7 +94,7 @@
       <p class="font-size-20 padding-20"></p>
     </div>
     </div>
-    <div class="width-250 height-100 margin-0-auto display-flex-between"></div> 
+    <div class="width-250 height-50 margin-0-auto display-flex-between"></div> 
   </div>   
   <script>
 
@@ -300,6 +302,7 @@
       friendTest.isGameRunning = false
       clearInterval(friendTest.timer)
       friendTestImg.src = ""
+      friendTestImg.classList.remove("img")
 
       outcome.children[0].textContent = "게임 종료"
       outcome.children[1].textContent = `점수 : ${friendTest.score}`
